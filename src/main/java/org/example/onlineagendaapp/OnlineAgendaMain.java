@@ -71,8 +71,7 @@ public class OnlineAgendaMain {
 
 		onlineAgenda.getTasks().add(todayTask);
 
-		// TODO Can refactor this to use constructor instead of repeating. Leave it as
-		// is to exemplify DRY principle and to remember constructors
+		// TODO How can you refactor this so we don't repeat the same code everytime we create a new Task?
 		Task tomorrowTask = new Task();
 		id = getNextRandomId();
 		idList.add(id);
