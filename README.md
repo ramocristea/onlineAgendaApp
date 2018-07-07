@@ -1,6 +1,4 @@
-# SoftwareCraftmanshipExercises
-
-## Digital agenda
+# Digital agenda
 
 Create an application that simulates a digital agenda. It allows you to create and add tasks, which contain the target date to complete and a description. You can prioritize the tasks in 3 different priorities: URGENT, IMPORTANT, TRIVIAL. You can set a time when you want to be notified about the unfinished tasks of the current day.
 
