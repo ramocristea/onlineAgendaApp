@@ -7,7 +7,7 @@ public class DBOnlineAgendaIO implements OnlineAgendaIO {
 
 	@Override
 	public OnlineAgenda getOnlineAgenda() {
-		// TODO Auto-generated method stub
+		System.out.println("DB");
 		return null;
 	}
 

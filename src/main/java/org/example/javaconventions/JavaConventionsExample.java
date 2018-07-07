@@ -1,8 +1,9 @@
-package org.example.onlineagendaapp;
+package org.example.javaconventions;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -14,19 +15,12 @@ import org.example.onlineagendaapp.model.OnlineAgenda;
 import org.example.onlineagendaapp.model.Priority;
 import org.example.onlineagendaapp.model.Task;
 
-/**
- * Test your Online Agenda
- *
- *	TODO extract CRUD operations
- *
- */
-public class OnlineAgendaMain {
-
+public class JavaConventionsExample {
 	private static OnlineAgenda onlineAgenda;
-	private static List<Integer> idList = new ArrayList<>();
+	private static List<Integer> ids = new ArrayList<>();
 
 	public static void main(String[] args) {
-		initializeAgenda();
+		createAgenda();
 		printAllTasksInTheAgenda();
 
 		System.out.println("-----------------------------");
@@ -37,15 +31,10 @@ public class OnlineAgendaMain {
 
 		System.out.println("-----------------------------");
 
-		// deleteTaskFromAgenda(idList.get(0));
-		printAllTasksInTheAgenda();
-
-		System.out.println("-----------------------------");
-		
-		printAllTasksForToday();
+		tasksfortoday();
 	}
 
-	private static void initializeAgenda() {
+	private static void createAgenda() {
 		onlineAgenda = new OnlineAgenda();
 		int id;
 
@@ -53,34 +42,29 @@ public class OnlineAgendaMain {
 
 		Task yesterdayTask = new Task();
 		id = getNextRandomId();
-		idList.add(id);
+		ids.add(id);
 		yesterdayTask.setId(id);
 		yesterdayTask.setTargetCompletionDate(today.minusDays(1));
 		yesterdayTask.setPriority(Priority.URGENT);
 		yesterdayTask.setDescription("Yesterday's Task");
-
 		onlineAgenda.getTasks().add(yesterdayTask);
 
 		Task todayTask = new Task();
 		id = getNextRandomId();
-		idList.add(id);
+		ids.add(id);
 		todayTask.setId(id);
 		todayTask.setTargetCompletionDate(today);
 		todayTask.setPriority(Priority.TRIVIAL);
 		todayTask.setDescription("Today's Task");
-
 		onlineAgenda.getTasks().add(todayTask);
 
-		// TODO Can refactor this to use constructor instead of repeating. Leave it as
-		// is to exemplify DRY principle and to remember constructors
 		Task tomorrowTask = new Task();
 		id = getNextRandomId();
-		idList.add(id);
+		ids.add(id);
 		tomorrowTask.setId(id);
 		tomorrowTask.setTargetCompletionDate(today.plusDays(1));
 		tomorrowTask.setPriority(Priority.IMPORTANT);
 		tomorrowTask.setDescription("Tomorrow's Task");
-
 		onlineAgenda.getTasks().add(tomorrowTask);
 	}
 
@@ -90,15 +74,14 @@ public class OnlineAgendaMain {
 		}
 	}
 
-	private static void addTaskToAgenda(LocalDateTime completionDate, String description, Priority priority) {
+	private static void addTaskToAgenda(LocalDateTime targetCompletionDate, String description, Priority priority) {
 		Task tomorrowTask = new Task();
 		int id = getNextRandomId();
-		idList.add(id);
+		ids.add(id);
 		tomorrowTask.setId(id);
-		tomorrowTask.setTargetCompletionDate(completionDate);
+		tomorrowTask.setTargetCompletionDate(targetCompletionDate);
 		tomorrowTask.setPriority(priority);
 		tomorrowTask.setDescription(description);
-
 		onlineAgenda.getTasks().add(tomorrowTask);
 	}
 
@@ -126,13 +109,13 @@ public class OnlineAgendaMain {
 		return random.nextInt(100);
 	}
 
-	private static void printAllTasksForToday() {
+	private static void tasksfortoday() {
 		List<Task> urgentTasks = new ArrayList<>();
 		List<Task> importantTasks = new ArrayList<>();
 		List<Task> trivialTasks = new ArrayList<>();
-		
-		for(Task task : onlineAgenda.getTasks()) {
-			if(LocalDate.now().isEqual(task.getTargetCompletionDate().toLocalDate())) {
+
+		for (Task task : onlineAgenda.getTasks()) {
+			if (LocalDate.now().isEqual(task.getTargetCompletionDate().toLocalDate())) {
 				switch (task.getPriority()) {
 				case URGENT:
 					urgentTasks.add(task);
@@ -146,34 +129,33 @@ public class OnlineAgendaMain {
 				}
 			}
 		}
-		
-		Collections.sort(urgentTasks, new Comparator<Task>() {
 
+		Collections.sort(urgentTasks, new Comparator<Task>() {
 			@Override
-			public int compare(Task o1, Task o2) {
-				if(o1.getTargetCompletionDate() == null && o2.getTargetCompletionDate() != null) {
+			public int compare(Task task1, Task task2) {
+				if (task1.getTargetCompletionDate() == null && task2.getTargetCompletionDate() != null) {
 					return -1;
 				}
-				return o1.getTargetCompletionDate().compareTo(o2.getTargetCompletionDate());
+				return task1.getTargetCompletionDate().compareTo(task2.getTargetCompletionDate());
 			}
 		});
-		
+
 		System.out.println("URGENT tasks for today:");
-		if(CollectionUtils.isEmpty(urgentTasks)) {
+		if (CollectionUtils.isEmpty(urgentTasks)) {
 			System.out.println("You have no URGENT tasks");
 		} else {
-			for(Task task : urgentTasks) {
+			for (Task task : urgentTasks) {
 				System.out.println(task.toString());
 			}
 		}
-		
+
 		System.out.println("-----------------------------");
-		
+
 		System.out.println("IMPORTANT tasks for today:");
-		if(CollectionUtils.isEmpty(importantTasks)) {
+		if (CollectionUtils.isEmpty(importantTasks)) {
 			System.out.println("You have no IMPORTANT tasks");
 		} else {
-			for(Task task : importantTasks) {
+			for (Task task : importantTasks) {
 				System.out.println(task.toString());
 			}
 		}
@@ -181,13 +163,13 @@ public class OnlineAgendaMain {
 		System.out.println("-----------------------------");
 		
 		System.out.println("TRIVIAL tasks for today:");
-		if(CollectionUtils.isEmpty(trivialTasks)) {
+		if (CollectionUtils.isEmpty(trivialTasks)) {
 			System.out.println("You have no TRIVIAL tasks");
 		} else {
-			for(Task task : trivialTasks) {
+			for (Task task : trivialTasks) {
 				System.out.println(task.toString());
 			}
 		}
-		
 	}
+
 }

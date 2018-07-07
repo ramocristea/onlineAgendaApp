@@ -8,10 +8,19 @@ public class Task {
 	private LocalDateTime targetCompletionDate;
 	private Priority priority;
 	private String description;
+	private boolean done = false;
 	
-	public Task() {};
+	public Task() {
+	}
 	
 	public Task(LocalDateTime targetCompletionDate, Priority priority, String description) {
+		this.targetCompletionDate = targetCompletionDate;
+		this.priority = priority;
+		this.description = description;
+	}
+	
+	public Task(int id, LocalDateTime targetCompletionDate, Priority priority, String description) {
+		this.id = id;
 		this.targetCompletionDate = targetCompletionDate;
 		this.priority = priority;
 		this.description = description;
@@ -84,6 +93,14 @@ public class Task {
 	public String toString() {
 		return "Task [id=" + id + ", targetCompletionDate=" + targetCompletionDate + ", priority=" + priority
 				+ ", description=" + description + "]";
+	}
+
+	public boolean isDone() {
+		return done;
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
 	}
 
 }
